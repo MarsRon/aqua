@@ -1,8 +1,10 @@
 # Aqua
 
-Random sentence generator using Markov chain, trained on KonoSuba light novel.
+Random sentence generator trained on KonoSuba light novel using Markov chain.
 
-Training data is based on [Kazuma](https://github.com/MarsRon/kazuma)'s.
+Also included is a FastAPI webserver using Aqua to generate random sentences.
+
+Training data is based on the one used by [Kazuma](https://github.com/MarsRon/kazuma).
 
 ## Example
 
@@ -24,39 +26,45 @@ Short sentences:
 
 ## Usage
 
-Feel free to ~~steal~~ take inspiration from this project in any way you want, it's under MIT license so you can do whatever you want ;)
-
-Clone the project
+Clone the project.
 
 ```bash
 $ git clone https://github.com/MarsRon/aqua
 ```
 
-Create a Python virtual environment
+Create a Python virtual environment.
 
 ```bash
 $ python3 -m venv venv
 $ source venv/bin/activate
 ```
 
-Install dependencies
+Install libraries.
 
 ```bash
 $ pip install -r requirements.txt
 ```
 
-Run the test script to generate a few sentences
+Run the test script to generate a few sentences.
 
 ```bash
 $ python test.py
 ```
 
-Start the API server
+Start the FastAPI webserver.
 
 ```bash
 $ python main.py
 ```
 
-## Generate Markov chain from scratch
+## Generate your own Markov chain
+I've included a Jupyter notebook so that you can make your own Aqua.
 
-Go through [`Aqua.ipynb`](./Aqua.ipynb)
+See [`train.ipynb`](./train.ipynb) for more information.
+
+## License
+Distributed under the MIT License. See [`LICENSE.md`](./LICENSE.md) for more information.
+
+## Contact
+
+MarsRon - marsron204@gmail.com - [marsron.name.my](https://marsron.name.my)

@@ -1,33 +1,47 @@
-from fastapi import FastAPI
-import markovify
-import time
-import uvicorn
 from os import environ
+from time import perf_counter
+
+from fastapi import FastAPI
+import uvicorn
+from aqua import Aqua
+
+# Constants
+PORT = int(environ.get('PORT', 3000))
+MODEL_FILE = "./aqua.json"
+SHORT_SENTENCE_MAX_CHAR = 50
+MARKOV_TRIES = 100
 
 app = FastAPI()
-port = int(environ.get('PORT', 3000))
 
-with open('./aqua.json', 'r') as file:
-  aqua_model = markovify.Text.from_json(file.read())
+# Load Aqua model
+with open(MODEL_FILE, 'r') as file:
+  aqua_model = Aqua.from_json(file.read())
 
+# Endpoints
 @app.get('/')
 def root():
-  return {'endpoints': ['/aqua']}
+  return {
+    'endpoints': ['/aqua'],
+    'author': 'MarsRon',
+    'contact': 'marsron204@gmail.com'
+  }
 
 @app.get('/aqua')
 def aqua(short: bool = False):
-  start = time.perf_counter()
-  while True:
-    if short == True:
-      response = aqua_model.make_short_sentence(max_chars=50)
-    else:
-      response = aqua_model.make_sentence()
-    if response is not None:
-      break
-  end = time.perf_counter()
+  start = perf_counter()
+  if short:
+    response = aqua_model.make_short_sentence(
+      max_chars=SHORT_SENTENCE_MAX_CHAR,
+      tries=MARKOV_TRIES
+    )
+  else:
+    response = aqua_model.make_sentence(tries=MARKOV_TRIES)
+  end = perf_counter()
+
   return {
     'response': response,
     'compute_time': end - start
   }
 
-uvicorn.run(app, host='0.0.0.0', port=port)
+# Start the API server
+uvicorn.run(app, host='0.0.0.0', port=PORT)
